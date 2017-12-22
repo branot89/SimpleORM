@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 public abstract class PersistableObject {
     @DatabaseField protected long id;
@@ -186,11 +187,11 @@ public abstract class PersistableObject {
         return object;
     }
 
-    public static <T> ArrayList<T> get(Class<T> type, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit){
+    public static <T> List<T> get(Class<T> type, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit){
         if(dbHelper == null)
             setDatabase(mContext, type);
 
-        ArrayList<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<T>();
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -208,11 +209,11 @@ public abstract class PersistableObject {
         return result;
     }
 
-    public static <T> ArrayList<T> getAll(Class<T> type){
+    public static <T> List<T> getAll(Class<T> type){
         return get(type, null, null, null, null, null, null);
     }
 
-    public static <T> void save(Class<T> type, ArrayList<T> list){
+    public static <T> void save(Class<T> type, List<T> list){
         if(dbHelper == null)
             setDatabase(mContext, type.getClass());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -241,7 +242,7 @@ public abstract class PersistableObject {
         try {
             Field[] fieldsArray = object.getDeclaredFields();
 
-            ArrayList<Field> fields = new ArrayList<Field>(fieldsArray.length);
+            List<Field> fields = new ArrayList<Field>(fieldsArray.length);
             for(Field field: fieldsArray){
                 fields.add(field);
             }
